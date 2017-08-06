@@ -6,19 +6,19 @@ app.use(bodyParser.urlencoded({extended:false}));
 var myGuys = [
     {
         "Name":"Michael",
-        "Nickname": "mic"
-    },
-    {
-        "Name":"Mikel",
-        "Nickname": "mich"
-    },
-    {
-        "Name":"Mikelson",
         "Nickname": "mike"
     },
     {
-        "Name":"Mikell",
-        "Nickname": "obi"
+        "Name":"Jigga",
+        "Nickname": "Jay"
+    },
+    {
+        "Name":"Benjamin",
+        "Nickname": "Ben"
+    },
+    {
+        "Name":"Emmanuel",
+        "Nickname": "emasys"
     }
 
 ],
@@ -41,6 +41,7 @@ ingredients = [
         "text":"pan cakes"
     }
 ];
+
 app.get('/guys', function(req, res){
 	res.send(myGuys);
 });
@@ -60,7 +61,6 @@ app.put('/guys/:Name',function(req, res){
     if(!newNickname || newNickname ===""){
         res.status(500).send({error: "something did not go well"});
     }else{
-        
         for(i = 0; i < myGuys.length; i++){
             var x = myGuys[i];
             if(x.Name === req.params.Name){
@@ -71,8 +71,6 @@ app.put('/guys/:Name',function(req, res){
     res.send(myGuys);
     }
 });
-
-
 
 app.get('/ingredients', function(request, response) {
     response.send(ingredients);
