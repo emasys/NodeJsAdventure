@@ -1,13 +1,36 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Product from '../products/product';
+import WishList from '../wishlist/wishlist';
 import HttpServices from '../services/http-services';
 
 const http = new HttpServices();
 class App extends Component {
   constructor(props){
     super(props);
-    http.getProducts();
+    this.state = {products:[]};
+    this.loadData = this.loadData.bind(this);
+    this.productList = this.productList.bind(this);
+    this.loadData();
+    this.productList();
+  }
+
+  productList = () => {
+    const list = this.state.products.map((product)=>
+      <div className="col-sm-4" key={product._id}>
+        <Product title={product.title} price ={product.price} imgUrl={product.imgUrl}/>
+      </div>
+    );
+    return (list);
+  }
+
+  loadData = () =>{
+    let self = this;
+    http.getProducts().then(data =>{
+      self.setState({products: data});
+    }, err =>{
+    });
   }
 
   render() {
@@ -17,9 +40,18 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to the Swag Shop</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-main container">
+          <div className="row">
+            <div className="col-sm-8">
+              <div className="row">
+                {this.productList()}
+              </div>
+            </div>
+            <div className="col-sm-4">
+              <WishList />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
